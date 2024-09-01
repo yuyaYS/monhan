@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import UploadMonstersButton from "./UploadMonstersButton";
 
 type PaginationControlsProps = {
   currentPage: number;
@@ -21,6 +22,10 @@ export function PaginationControls({
 
   return (
     <div className="flex justify-center items-center mt-8 gap-4">
+      {/* <div>
+        <h1>Monster Data Upload</h1>
+        <UploadMonstersButton />
+      </div> */}
       <Button
         variant="outline"
         disabled={currentPage <= 1}
