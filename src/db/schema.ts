@@ -7,8 +7,8 @@ export const monsters = pgTable("monsters", {
   type: text("type").notNull(),
   isLarge: boolean("is_large"),
   elements: jsonb("elements").$type<string[]>(),
-  ailments: jsonb("ailments").notNull().$type<string[]>(),
-  weakness: jsonb("weakness").notNull().$type<string[]>(),
+  ailments: jsonb("ailments").$type<string[]>(),
+  weakness: jsonb("weakness").$type<string[]>(),
   games: jsonb("games").notNull().$type<
     {
       game: string;
