@@ -1,45 +1,47 @@
-import { promises as fs } from "fs";
-import path from "path";
 import Image from "next/image";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { PaginationControls } from "@/components/monster/PaginationControls";
-
+import { db } from "@/db";
+import { monsters } from "@/db/schema";
+import { sql } from "drizzle-orm";
+import { Monster } from "@/types/monster";
 const ITEMS_PER_PAGE = 16;
 
-export default async function MonstersPage({
+export default async function Home({
   searchParams,
 }: {
   searchParams: { page: string };
 }) {
   const page = Number(searchParams.page) || 1;
-  const jsonDirectory = path.join(
-    process.cwd(),
-    "public",
-    "data",
-    "monsters.json"
-  );
-  const fileContents = await fs.readFile(jsonDirectory, "utf8");
-  const data = JSON.parse(fileContents);
 
-  const totalMonsters = data.monsters.length;
+  // Query total count of monsters
+  const [{ count }] = await db
+    .select({
+      count: sql<number>`cast(count(*) as integer)`,
+    })
+    .from(monsters);
+
+  const totalMonsters = Number(count);
   const totalPages = Math.ceil(totalMonsters / ITEMS_PER_PAGE);
 
-  const monsters = data.monsters.slice(
-    (page - 1) * ITEMS_PER_PAGE,
-    page * ITEMS_PER_PAGE
-  );
+  // Query monsters with pagination
+  const monstersData = await db
+    .select()
+    .from(monsters)
+    .limit(ITEMS_PER_PAGE)
+    .offset((page - 1) * ITEMS_PER_PAGE);
 
   return (
     <div className="container mx-auto py-8">
       <h1 className="text-3xl font-bold mb-6">Monsters</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {monsters.map((monster: any) => (
-          <Card key={monster._id.$oid} className="overflow-hidden">
+        {monstersData.map((monster: Monster) => (
+          <Card key={monster.id} className="overflow-hidden">
             <CardHeader className="pb-2">
               <Link
-                href={`/monster/${monster._id.$oid}`}
+                href={`/monster/${monster.monsterId}`}
                 className="hover:underline"
               >
                 <CardTitle className="cursor-pointer hover:text-blue-600">
