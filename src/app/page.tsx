@@ -5,6 +5,7 @@ import { db } from "@/db";
 import { monsters } from "@/db/schema";
 import { sql } from "drizzle-orm";
 import { Monster } from "@/types/monster";
+import { SearchBar } from "@/components/monster/SearchBar";
 
 const ITEMS_PER_PAGE = 16;
 
@@ -15,7 +16,6 @@ export default async function Home({
 }) {
   const page = Number(searchParams.page) || 1;
 
-  // Query total count of monsters
   const [{ count }] = await db
     .select({
       count: sql<number>`cast(count(*) as integer)`,
@@ -25,7 +25,6 @@ export default async function Home({
   const totalMonsters = Number(count);
   const totalPages = Math.ceil(totalMonsters / ITEMS_PER_PAGE);
 
-  // Query monsters with pagination
   const monstersData: Monster[] = await db
     .select()
     .from(monsters)
@@ -34,10 +33,17 @@ export default async function Home({
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-bold mb-6">Monsters</h1>
-      <Suspense fallback={<div>Loading monsters...</div>}>
-        <MonsterList monsters={monstersData} />
-      </Suspense>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-3xl font-bold">Monsters</h1>
+        <div className="relative z-10">
+          <SearchBar />
+        </div>
+      </div>
+      <div className="relative z-0">
+        <Suspense fallback={<div>Loading monsters...</div>}>
+          <MonsterList monsters={monstersData} />
+        </Suspense>
+      </div>
       <PaginationControls currentPage={page} totalPages={totalPages} />
     </div>
   );

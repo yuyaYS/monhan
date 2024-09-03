@@ -1,5 +1,5 @@
-- [] move json to postgresql Supabase
-- [] search monster.
+- [x] move json to postgresql Supabase
+- [] search monster. using react query(it has weird behavior but fix later )
 - [] filter monster or weakness
 - [] ask if anyone want to join the mission
 
