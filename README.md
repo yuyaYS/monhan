@@ -1,9 +1,10 @@
 - [x] move json to postgresql Supabase
-- [] search monster. using react query(it has weird behavior but fix later )
-- [] filter monster or weakness
+- [x] search monster. using react query(it has weird behavior but fix later )
+- [x] filter monster
 - [] ask if anyone want to join the mission
-
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+  -[] rate limit for api request.
+  -[] sentry for log
+  This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
 

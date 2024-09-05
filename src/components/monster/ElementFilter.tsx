@@ -20,7 +20,6 @@ export function ElementFilter({
 
     const params = new URLSearchParams(searchParams);
     params.set("elements", newElements.join(","));
-    console.log("HIII", params);
 
     params.set("page", "1");
     router.push(`/?${params.toString()}`);
