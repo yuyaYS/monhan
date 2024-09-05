@@ -1,35 +1,18 @@
 import { Suspense } from "react";
 import { PaginationControls } from "@/components/monster/PaginationControls";
 import { MonsterList } from "@/components/monster/MonsterList";
-import { db } from "@/db";
-import { monsters } from "@/db/schema";
-import { sql } from "drizzle-orm";
-import { Monster } from "@/types/monster";
 import { SearchBar } from "@/components/monster/SearchBar";
+import { ElementFilter } from "@/components/monster/ElementFilter";
 
-const ITEMS_PER_PAGE = 16;
-
-export default async function Home({
+export default function Home({
   searchParams,
 }: {
-  searchParams: { page: string };
+  searchParams: { page: string; elements: string };
 }) {
   const page = Number(searchParams.page) || 1;
-
-  const [{ count }] = await db
-    .select({
-      count: sql<number>`cast(count(*) as integer)`,
-    })
-    .from(monsters);
-
-  const totalMonsters = Number(count);
-  const totalPages = Math.ceil(totalMonsters / ITEMS_PER_PAGE);
-
-  const monstersData: Monster[] = await db
-    .select()
-    .from(monsters)
-    .limit(ITEMS_PER_PAGE)
-    .offset((page - 1) * ITEMS_PER_PAGE);
+  const elements = searchParams.elements
+    ? searchParams.elements.split(",")
+    : [];
 
   return (
     <div className="container mx-auto py-8">
@@ -39,12 +22,13 @@ export default async function Home({
           <SearchBar />
         </div>
       </div>
+      <ElementFilter selectedElements={elements} />
       <div className="relative z-0">
         <Suspense fallback={<div>Loading monsters...</div>}>
-          <MonsterList monsters={monstersData} />
+          <MonsterList page={page} elements={elements} />
         </Suspense>
       </div>
-      <PaginationControls currentPage={page} totalPages={totalPages} />
+      <PaginationControls currentPage={page} />
     </div>
   );
 }
