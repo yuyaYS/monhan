@@ -1,4 +1,11 @@
-import { pgTable, serial, text, boolean, jsonb } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  serial,
+  text,
+  boolean,
+  jsonb,
+  varchar,
+} from "drizzle-orm/pg-core";
 
 export const monsters = pgTable("monsters", {
   id: serial("id").primaryKey(),
@@ -15,6 +22,17 @@ export const monsters = pgTable("monsters", {
       image: string;
       info: string;
       danger?: string;
+    }[]
+  >(),
+});
+export const endemicLife = pgTable("endemic_life", {
+  id: serial("id").primaryKey(),
+  name: varchar("name"),
+  game: jsonb("game").$type<
+    {
+      game: string;
+      info: string;
+      image: string;
     }[]
   >(),
 });
