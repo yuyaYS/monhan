@@ -1,34 +1,45 @@
-import { promises as fs } from "fs";
-import path from "path";
+"use client";
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { EndemicLife } from "@/types/endemic_life";
 
-export default async function EndemicLifePage() {
-  const jsonDirectory = path.join(
-    process.cwd(),
-    "public",
-    "data",
-    "endemicLife.json"
-  );
-  const fileContents = await fs.readFile(jsonDirectory, "utf8");
-  const data = JSON.parse(fileContents);
+// Function to fetch endemic life data
+const fetchEndemicLife = async (): Promise<EndemicLife[]> => {
+  const response = await fetch("/api/endemic_life");
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+  return response.json();
+};
 
-  const endemicLife: EndemicLife[] = data.endemicLife;
+export default function EndemicLifePage() {
+  const {
+    data: endemicLife,
+    isLoading,
+    error,
+  } = useQuery<EndemicLife[]>({
+    queryKey: ["endemicLife"],
+    queryFn: fetchEndemicLife,
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error)
+    return <div>An error has occurred: {(error as Error).message}</div>;
 
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-6">Endemic Life</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {endemicLife.map((creature: EndemicLife) => (
+        {endemicLife?.map((creature: EndemicLife) => (
           <Card key={creature.name} className="overflow-hidden">
             <CardHeader>
               <CardTitle>{creature.name}</CardTitle>
             </CardHeader>
             <CardContent>
-              {creature.game.map((gameInfo: any) => (
-                <div key={gameInfo.game} className="mb-4">
+              {creature.game.map((gameInfo, index) => (
+                <div key={index} className="mb-4">
                   <Badge variant="secondary" className="mb-2">
                     {gameInfo.game}
                   </Badge>
