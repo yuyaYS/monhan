@@ -3,23 +3,27 @@
 import { useQuery } from "@tanstack/react-query";
 import { EndemicLife } from "@/types/endemic_life";
 import EndemicLifeCard from "./EndemicLifeCard";
+import PaginationEndemicLife from "./PaginationEndemicLife";
 
-const fetchEndemicLife = async (): Promise<EndemicLife[]> => {
-  const response = await fetch("/api/endemic_life");
-  if (!response.ok) {
-    throw new Error("Network response was not ok");
+async function getEndemicLife(page: number): Promise<{
+  data: EndemicLife[];
+  pagination: { currentPage: number; totalPages: number; totalItems: number };
+}> {
+  const res = await fetch(`/api/endemic_life?page=${page}`);
+  if (!res.ok) {
+    throw new Error("Failed to fetch endemic life data");
   }
-  return response.json();
-};
+  return res.json();
+}
 
-export default function EndemicLifeList() {
-  const {
-    data: endemicLife,
-    isLoading,
-    error,
-  } = useQuery<EndemicLife[]>({
-    queryKey: ["endemicLife"],
-    queryFn: fetchEndemicLife,
+export default function EndemicLifeList({
+  currentPage,
+}: {
+  currentPage: number;
+}) {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["endemicLife", currentPage],
+    queryFn: () => getEndemicLife(currentPage),
   });
 
   if (isLoading) return <div>Loading...</div>;
@@ -27,10 +31,16 @@ export default function EndemicLifeList() {
     return <div>An error has occurred: {(error as Error).message}</div>;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      {endemicLife?.map((creature: EndemicLife) => (
-        <EndemicLifeCard key={creature.id} creature={creature} />
-      ))}
+    <div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {data?.data.map((creature: EndemicLife) => (
+          <EndemicLifeCard key={creature.name} creature={creature} />
+        ))}
+      </div>
+      <PaginationEndemicLife
+        currentPage={data?.pagination.currentPage || 1}
+        totalPages={data?.pagination.totalPages || 1}
+      />
     </div>
   );
 }

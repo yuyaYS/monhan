@@ -1,14 +1,36 @@
 import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { endemicLife } from "@/db/schema";
+import { sql } from "drizzle-orm";
 
 export async function GET(request: Request) {
-  try {
-    // Query the database using Drizzle ORM
-    const endemicLifeData = await db.select().from(endemicLife);
+  const { searchParams } = new URL(request.url);
+  const page = Number(searchParams.get("page")) || 1;
+  const pageSize = 16;
 
-    // Return the endemic life data as a JSON response
-    return NextResponse.json(endemicLifeData);
+  try {
+    const [countResult] = await db
+      .select({ count: sql<number>`count(*)` })
+      .from(endemicLife);
+
+    const totalItems = countResult.count;
+    const totalPages = Math.ceil(totalItems / pageSize);
+
+    const offset = (page - 1) * pageSize;
+    const data = await db
+      .select()
+      .from(endemicLife)
+      .limit(pageSize)
+      .offset(offset);
+
+    return NextResponse.json({
+      data,
+      pagination: {
+        currentPage: page,
+        totalPages,
+        totalItems,
+      },
+    });
   } catch (error) {
     console.error("Error fetching endemic life data:", error);
     return NextResponse.json(
