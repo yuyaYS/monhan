@@ -3,6 +3,7 @@ import { PaginationControls } from "@/components/monster/PaginationControls";
 import { MonsterList } from "@/components/monster/MonsterList";
 import { SearchBar } from "@/components/monster/SearchBar";
 import { ElementFilter } from "@/components/monster/ElementFilter";
+import Link from "next/link";
 
 export default function Home({
   searchParams,
@@ -17,7 +18,9 @@ export default function Home({
   return (
     <div className="container mx-auto py-8">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold">Monsters</h1>
+        <h1 className="text-3xl font-bold">
+          <Link href="/monster">Monsters</Link>
+        </h1>
         <div className="relative z-10">
           <SearchBar />
         </div>
