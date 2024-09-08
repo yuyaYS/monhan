@@ -6,7 +6,7 @@ import { Button } from "../ui/button";
 export function PaginationControls({ currentPage }: { currentPage: number }) {
   const router = useRouter();
   const searchParams = useSearchParams();
-
+  const totalPages = 19;
   const handlePageChange = (newPage: number) => {
     const params = new URLSearchParams(searchParams);
     params.set("page", newPage.toString());
@@ -21,7 +21,15 @@ export function PaginationControls({ currentPage }: { currentPage: number }) {
       >
         Previous
       </Button>
-      <Button onClick={() => handlePageChange(currentPage + 1)}>Next</Button>
+      <span className="self-center">
+        Page {currentPage} of {totalPages}
+      </span>
+      <Button
+        onClick={() => handlePageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+      >
+        Next
+      </Button>
     </div>
   );
 }
