@@ -22,7 +22,7 @@ export function ElementFilter({
     params.set("elements", newElements.join(","));
 
     params.set("page", "1");
-    router.push(`/?${params.toString()}`);
+    router.push(`/monster?${params.toString()}`);
   };
 
   return (

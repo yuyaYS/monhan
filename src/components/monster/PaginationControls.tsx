@@ -10,7 +10,7 @@ export function PaginationControls({ currentPage }: { currentPage: number }) {
   const handlePageChange = (newPage: number) => {
     const params = new URLSearchParams(searchParams);
     params.set("page", newPage.toString());
-    router.push(`/?${params.toString()}`);
+    router.push(`/monster?${params.toString()}`);
   };
 
   return (

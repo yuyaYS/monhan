@@ -1,37 +1,52 @@
-import { Suspense } from "react";
-import { PaginationControls } from "@/components/monster/PaginationControls";
-import { MonsterList } from "@/components/monster/MonsterList";
-import { SearchBar } from "@/components/monster/SearchBar";
-import { ElementFilter } from "@/components/monster/ElementFilter";
+// src/app/page.tsx
+
 import Link from "next/link";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-export default function Home({
-  searchParams,
-}: {
-  searchParams: { page: string; elements: string };
-}) {
-  const page = Number(searchParams.page) || 1;
-  const elements = searchParams.elements
-    ? searchParams.elements.split(",")
-    : [];
-
+export default function Home() {
   return (
-    <div className="container mx-auto py-8">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold">
-          <Link href="/monster">Monsters</Link>
-        </h1>
-        <div className="relative z-10">
-          <SearchBar />
-        </div>
+    <div className="container mx-auto p-4">
+      <h1 className="text-4xl font-bold text-center mb-8">
+        Monster Hunter Dictionary
+      </h1>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Link href="/monster" className="no-underline">
+          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+            <CardHeader>
+              <CardTitle>Monsters</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-gray-600">
+                Explore fearsome creatures of Monster Hunter
+              </p>
+            </CardContent>
+          </Card>
+        </Link>
+        <Link href="/quest" className="no-underline">
+          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+            <CardHeader>
+              <CardTitle>Quests</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-gray-600">
+                Discover exciting hunts and challenges
+              </p>
+            </CardContent>
+          </Card>
+        </Link>
+        <Link href="/endemic" className="no-underline">
+          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+            <CardHeader>
+              <CardTitle>Endemic Life</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-gray-600">
+                Learn about unique wildlife in the game
+              </p>
+            </CardContent>
+          </Card>
+        </Link>
       </div>
-      <ElementFilter selectedElements={elements} />
-      <div className="relative z-0">
-        <Suspense fallback={<div>Loading monsters...</div>}>
-          <MonsterList page={page} elements={elements} />
-        </Suspense>
-      </div>
-      <PaginationControls currentPage={page} />
     </div>
   );
 }
