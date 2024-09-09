@@ -9,7 +9,7 @@ export default function EndemicLifePage({
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">
+      <h1 className="text-4xl font-bold mb-8  text-[#8B5A2B] font-serif">
         <Link href="/endemic">Endemic Life</Link>
       </h1>
       <EndemicLifeList currentPage={currentPage} />
