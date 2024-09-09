@@ -5,6 +5,7 @@ import {
   boolean,
   jsonb,
   varchar,
+  integer,
 } from "drizzle-orm/pg-core";
 
 export const monsters = pgTable("monsters", {
@@ -36,3 +37,20 @@ export const endemicLife = pgTable("endemic_life", {
     }[]
   >(),
 });
+
+export const quests = pgTable("quests", {
+  id: serial("id").primaryKey(),
+  quest_id: text("quest_id").notNull(),
+  name: varchar("name").notNull(),
+  client: varchar("client").notNull(),
+  description: text("description").notNull(),
+  map: varchar("map").notNull(),
+  isKey: boolean("is_key"),
+  questType: varchar("quest_type").notNull(),
+  game: varchar("game").notNull(),
+  difficulty: varchar("difficulty").notNull(),
+  objective: text("objective").notNull(),
+  targets: jsonb("targets").$type<string[]>(),
+});
+
+export type Quest = typeof quests.$inferSelect;
