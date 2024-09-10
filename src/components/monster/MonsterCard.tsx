@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Monster } from "@/types/monster";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useRouter } from "next/navigation";
 
 const getElementColor = (element: string) => {
   switch (element.toLowerCase()) {
@@ -31,14 +32,23 @@ export function MonsterCard({
   weakness,
   games,
 }: Monster) {
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/monster?monsterId=${monsterId}`);
+  };
+
   return (
     <Suspense fallback={<MonsterCardSkeleton />}>
-      <Card className="overflow-hidden bg-[#F5F5DC] border border-[#8B5A2B] hover:shadow-lg transition-shadow">
-        <CardHeader className="bg-[#A52A2A] text-white">
-          <Link href={`/monster/${monsterId}`} className="hover:underline">
-            <CardTitle className="cursor-pointer">{name}</CardTitle>
-          </Link>
-        </CardHeader>
+      <Card
+        className="overflow-hidden bg-[#F5F5DC] border border-[#8B5A2B] hover:shadow-lg transition-shadow cursor-pointer"
+        onClick={handleClick}
+      >
+        <Link href={`/monster?monsterId=${monsterId}`} scroll={false}>
+          <CardHeader className="bg-[#A52A2A] text-white">
+            <CardTitle>{name}</CardTitle>
+          </CardHeader>
+        </Link>
         <CardContent className="p-4">
           <p className="text-sm font-semibold mb-2">
             Type: {type || "Unknown"}

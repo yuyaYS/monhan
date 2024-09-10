@@ -4,6 +4,7 @@ import { MonsterList } from "@/components/monster/MonsterList";
 import { SearchBar } from "@/components/monster/SearchBar";
 import { ElementFilter } from "@/components/monster/ElementFilter";
 import Link from "next/link";
+import { MonsterModal } from "@/components/monster/MonsterModal";
 export default function MonsterPage({
   searchParams,
 }: {
@@ -28,6 +29,7 @@ export default function MonsterPage({
       <div className="relative z-0">
         <Suspense fallback={<div>Loading monsters...</div>}>
           <MonsterList page={page} elements={elements} />
+          <MonsterModal />
         </Suspense>
       </div>
       <PaginationControls currentPage={page} />
