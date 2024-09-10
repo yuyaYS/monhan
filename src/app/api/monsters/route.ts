@@ -1,9 +1,9 @@
 import { getFilteredMonsters } from "@/db/queries/monsters";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function GET(request: NextRequest) {
+export async function GET(request: Request) {
   try {
-    const searchParams = request.nextUrl.searchParams;
+    const { searchParams } = new URL(request.url);
     const page = Number(searchParams.get("page")) || 1;
     const elements =
       searchParams.get("elements")?.split(",").filter(Boolean) || [];
@@ -20,5 +20,3 @@ export async function GET(request: NextRequest) {
     );
   }
 }
-
-export const dynamic = "force-dynamic";
