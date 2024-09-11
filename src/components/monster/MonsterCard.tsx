@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Monster } from "@/types/monster";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const getElementColor = (element: string) => {
   switch (element.toLowerCase()) {
@@ -33,18 +33,15 @@ export function MonsterCard({
   games,
 }: Monster) {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
-  const handleClick = () => {
-    router.push(`/monster?monsterId=${monsterId}`);
-  };
+  const currentParams = new URLSearchParams(searchParams.toString());
+  currentParams.set("monsterId", monsterId);
 
   return (
     <Suspense fallback={<MonsterCardSkeleton />}>
-      <Card
-        className="overflow-hidden bg-[#F5F5DC] border border-[#8B5A2B] hover:shadow-lg transition-shadow cursor-pointer"
-        onClick={handleClick}
-      >
-        <Link href={`/monster?monsterId=${monsterId}`} scroll={false}>
+      <Card className="overflow-hidden bg-[#F5F5DC] border border-[#8B5A2B] hover:shadow-lg transition-shadow cursor-pointer">
+        <Link href={`/monster?${currentParams.toString()}`} scroll={false}>
           <CardHeader className="bg-[#A52A2A] text-white">
             <CardTitle>{name}</CardTitle>
           </CardHeader>
