@@ -12,7 +12,7 @@ export default function QuestPage({
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-4xl font-bold mb-8  text-[#8B5A2B] font-serif">
-        <Link href="/quest">Monster Hunter Quests</Link>
+        <Link href="/quest">Quests</Link>
       </h1>
       <Suspense fallback={<div>Loading quests...</div>}>
         <QuestList currentPage={currentPage} />
