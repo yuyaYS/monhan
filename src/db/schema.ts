@@ -56,7 +56,7 @@ export const quests = pgTable("quests", {
 
 export type Quest = typeof quests.$inferSelect;
 
-const formSchema = z.object({
+export const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters long"),
   email: z.string().email("Invalid email address"),
   subject: z.string().min(5, "Subject must be at least 5 characters long"),
