@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { monsters } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import * as Sentry from "@sentry/nextjs";
 
 export async function GET(
   request: Request,
@@ -23,6 +24,8 @@ export async function GET(
     return NextResponse.json(monster[0]);
   } catch (error) {
     console.error("Error fetching monster data:", error);
+    Sentry.captureException(error);
+
     return NextResponse.json(
       { error: "Failed to fetch monster data" },
       { status: 500 }

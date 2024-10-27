@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { endemicLife } from "@/db/schema";
 import { sql } from "drizzle-orm";
+import * as Sentry from "@sentry/nextjs";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -33,6 +34,7 @@ export async function GET(request: Request) {
     });
   } catch (error) {
     console.error("Error fetching endemic life data:", error);
+    Sentry.captureException(error);
     return NextResponse.json(
       { error: "An unexpected error occurred" },
       { status: 500 }
