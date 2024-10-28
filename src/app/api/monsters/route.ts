@@ -1,6 +1,6 @@
 import { getFilteredMonsters } from "@/db/queries/monsters";
 import { NextResponse } from "next/server";
-import * as Sentry from "@sentry/nextjs";
+import { logErrorToSentry } from "@/lib/logging/log";
 
 export async function GET(request: Request) {
   try {
@@ -14,8 +14,8 @@ export async function GET(request: Request) {
 
     return NextResponse.json(result);
   } catch (error) {
-    console.error("Error in monsters API:", error);
-    Sentry.captureException(error);
+    console.error("Error in monsters API returing list of mosnter:", error);
+    logErrorToSentry(error, "monsters/route/GET", "API_MONSTERS_FAILURE");
 
     return NextResponse.json(
       { error: "An unexpected error occurred" },

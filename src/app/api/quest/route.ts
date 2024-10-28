@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { quests } from "@/db/schema";
 import { sql } from "drizzle-orm";
-import * as Sentry from "@sentry/nextjs";
+import { logErrorToSentry } from "@/lib/logging/log";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -30,7 +30,7 @@ export async function GET(request: Request) {
     });
   } catch (error) {
     console.error("Error fetching quests:", error);
-    Sentry.captureException(error);
+    logErrorToSentry(error, "quest/route/GET", "API_QUEST_FAILURE");
 
     return NextResponse.json(
       { error: "Failed to fetch quests" },
