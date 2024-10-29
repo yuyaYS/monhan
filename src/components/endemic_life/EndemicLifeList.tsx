@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { EndemicLife } from "@/types/endemic_life";
 import EndemicLifeCard from "./EndemicLifeCard";
 import PaginationEndemicLife from "./PaginationEndemicLife";
+import SyncSpinner from "@/lib/loadingspiner";
 
 async function getEndemicLife(page: number): Promise<{
   data: EndemicLife[];
@@ -26,7 +27,10 @@ export default function EndemicLifeList({
     queryFn: () => getEndemicLife(currentPage),
   });
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <SyncSpinner color="#009933" size={20} margin={3} speedMultiplier={0.8} />
+    );
   if (error)
     return <div>An error has occurred: {(error as Error).message}</div>;
 

@@ -4,10 +4,9 @@ import { useQuery } from "@tanstack/react-query";
 import QuestCard from "./QuestCard";
 import { PaginationQuest } from "./PaginationQuest";
 import { Quest } from "@/db/schema";
+import SyncSpinner from "@/lib/loadingspiner";
 
-async function getQuests(
-  page: number
-): Promise<{
+async function getQuests(page: number): Promise<{
   data: Quest[];
   pagination: { currentPage: number; totalPages: number; totalQuests: number };
 }> {
@@ -24,7 +23,10 @@ export default function QuestList({ currentPage }: { currentPage: number }) {
     queryFn: () => getQuests(currentPage),
   });
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <SyncSpinner color="#009933" size={20} margin={3} speedMultiplier={0.8} />
+    );
   if (error) return <div>An error occurred: {(error as Error).message}</div>;
 
   return (

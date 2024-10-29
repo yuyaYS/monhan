@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Monster } from "@/types/monster";
+import SyncSpinner from "@/lib/loadingspiner";
 
 const getElementColor = (element: string) => {
   switch (element.toLowerCase()) {
@@ -72,7 +73,14 @@ export function MonsterModal() {
             {monster?.name || "Monster Details"}
           </DialogTitle>
         </DialogHeader>
-        {isLoading && <p className="text-center py-8">Loading...</p>}
+        {isLoading && (
+          <SyncSpinner
+            color="#009933"
+            size={20}
+            margin={3}
+            speedMultiplier={0.8}
+          />
+        )}
         {error && (
           <p className="text-center py-8 text-red-500">
             Error: {(error as Error).message}
