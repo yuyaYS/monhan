@@ -1,42 +1,36 @@
 - [x] move json to postgresql Supabase
 - [x] search monster. using react query(it has weird behavior but fix later )
 - [x] filter monster
-- [] ask if anyone want to join the mission
-  -[] rate limit for api request.
-  -[] sentry for log
-  This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+- [] rate limit for api request.
+- [] maybe create post for mission
 
 ## Getting Started
 
-First, run the development server:
+This is collection of Monster Hunter Dictionary. You can see monsters, quests, endemic monsters. Search is only available monster for now. You can filter monster clicking element of monster.
+I have use [Monster hunter json data](https://github.com/CrimsonNynja/monster-hunter-DB) for creating database schema. Thank you for [CrimsonNynja](https://github.com/CrimsonNynja)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Next.js: use of client and server component.
+- Tailwind for styling.
+- Drizzle ORM for database query
+- Supabase for hosting database and image is pulling from public folder
+- React-query: fetching and state management.
+- Zod for form type validation and nodemailer for mail handling.
+- Sentry.io : logging
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+モンスターハンターの辞書です。モンスター、クエスト、環境生物を見ることができます。検索は今のところモンスターのみです。モンスターページよりタイプ（炎）などをクリックすると、モンスターを絞り込むことができます。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+データベーススキーマの作成には[Monster hunter json data](https://github.com/CrimsonNynja/monster-hunter-DB)を利用させていただきました。[CrimsonNynja](https://github.com/CrimsonNynja)ありがとうございました。
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- Next.js：クライアントコンポーネントとサーバーコンポーネントを使用。
 
-## Learn More
+- スタイリングには Tailwind を使用。
 
-To learn more about Next.js, take a look at the following resources:
+- データベースクエリのための Drizzle ORM
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- データベースのホスティングには Supabase を使用し、画像は public フォルダから取得しています。
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- React-query：フェッチとステート管理。
 
-## Deploy on Vercel
+- Zod: フォームタイプのバリデーション、nodemailer: メールハンドリング。
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Sentry.io : ロギング
