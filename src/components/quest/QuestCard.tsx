@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Quest } from "@/db/schema";
+import { Quest } from "@/types/quest";
 
 export default function QuestCard({ quest }: { quest: Quest }) {
   return (

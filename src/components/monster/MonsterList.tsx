@@ -4,18 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { MonsterCard } from "./MonsterCard";
 import { Monster } from "@/types/monster";
 import LoadSpinner from "@/lib/loadingspiner";
-
-export async function fetchMonsters(page: number, elements: string[]) {
-  const params = new URLSearchParams({ page: page.toString() });
-  if (elements.length > 0) {
-    params.append("elements", elements.join(","));
-  }
-  const response = await fetch(`/api/monsters?${params.toString()}`);
-  if (!response.ok) {
-    throw new Error("Network response was not ok");
-  }
-  return response.json();
-}
+import { fetchMonsters } from "@/db/queries/queries";
 
 export function MonsterList({
   page,

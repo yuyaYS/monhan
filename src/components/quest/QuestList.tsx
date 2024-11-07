@@ -3,19 +3,9 @@
 import { useQuery } from "@tanstack/react-query";
 import QuestCard from "./QuestCard";
 import { PaginationQuest } from "./PaginationQuest";
-import { Quest } from "@/db/schema";
 import LoadSpinner from "@/lib/loadingspiner";
-
-async function getQuests(page: number): Promise<{
-  data: Quest[];
-  pagination: { currentPage: number; totalPages: number; totalQuests: number };
-}> {
-  const res = await fetch(`/api/quest?page=${page}`);
-  if (!res.ok) {
-    throw new Error("Failed to fetch quests");
-  }
-  return res.json();
-}
+import { getQuests } from "@/db/queries/queries";
+import { Quest } from "@/types/quest";
 
 export default function QuestList({ currentPage }: { currentPage: number }) {
   const { data, isLoading, error } = useQuery({

@@ -12,6 +12,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Monster } from "@/types/monster";
 import LoadSpinner from "@/lib/loadingspiner";
+import { fetchMonsterDetails } from "@/db/queries/queries";
 
 const getElementColor = (element: string) => {
   switch (element.toLowerCase()) {
@@ -29,14 +30,6 @@ const getElementColor = (element: string) => {
       return "bg-gray-500";
   }
 };
-
-async function fetchMonsterDetails(monsterId: string): Promise<Monster> {
-  const response = await fetch(`/api/monsters/${monsterId}`);
-  if (!response.ok) {
-    throw new Error("Failed to fetch monster details");
-  }
-  return response.json();
-}
 
 export function MonsterModal() {
   const router = useRouter();

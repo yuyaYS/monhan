@@ -5,17 +5,7 @@ import { EndemicLife } from "@/types/endemic_life";
 import EndemicLifeCard from "./EndemicLifeCard";
 import PaginationEndemicLife from "./PaginationEndemicLife";
 import LoadSpinner from "@/lib/loadingspiner";
-
-async function getEndemicLife(page: number): Promise<{
-  data: EndemicLife[];
-  pagination: { currentPage: number; totalPages: number; totalItems: number };
-}> {
-  const res = await fetch(`/api/endemic_life?page=${page}`);
-  if (!res.ok) {
-    throw new Error("Failed to fetch endemic life data");
-  }
-  return res.json();
-}
+import { getEndemicLife } from "@/db/queries/queries";
 
 export default function EndemicLifeList({
   currentPage,
