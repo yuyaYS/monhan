@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
-import { Monster } from "@/types/monster";
 import {
   Command,
   CommandEmpty,
@@ -12,15 +11,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-
-async function searchMonsters(query: string): Promise<Monster[]> {
-  if (!query) return [];
-  const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
-  if (!response.ok) {
-    throw new Error("Failed to fetch monsters");
-  }
-  return response.json();
-}
+import { searchMonsters } from "@/db/queries/queries";
 
 export function SearchBar() {
   const [inputValue, setInputValue] = useState("");

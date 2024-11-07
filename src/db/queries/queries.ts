@@ -43,3 +43,12 @@ export async function getEndemicLife(page: number): Promise<{
   }
   return res.json();
 }
+
+export async function searchMonsters(query: string): Promise<Monster[]> {
+  if (!query) return [];
+  const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch monsters");
+  }
+  return response.json();
+}
