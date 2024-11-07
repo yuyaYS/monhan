@@ -3,9 +3,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { MonsterCard } from "./MonsterCard";
 import { Monster } from "@/types/monster";
-import SyncSpinner from "@/lib/loadingspiner";
+import LoadSpinner from "@/lib/loadingspiner";
 
-async function fetchMonsters(page: number, elements: string[]) {
+export async function fetchMonsters(page: number, elements: string[]) {
   const params = new URLSearchParams({ page: page.toString() });
   if (elements.length > 0) {
     params.append("elements", elements.join(","));
@@ -27,12 +27,12 @@ export function MonsterList({
   const { data, isLoading, error } = useQuery({
     queryKey: ["monsters", page, elements],
     queryFn: () => fetchMonsters(page, elements),
+    staleTime: 1000 * 60 * 5,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
   });
 
-  if (isLoading)
-    return (
-      <SyncSpinner color="#009933" size={20} margin={3} speedMultiplier={0.8} />
-    );
+  if (isLoading) return <LoadSpinner />;
   if (error) return <div>An error occurred: {error.message}</div>;
 
   if (data.monsters.length === 0) {

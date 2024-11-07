@@ -45,40 +45,41 @@ export function MonsterCard({
           <CardHeader className="bg-[#A52A2A] text-white">
             <CardTitle>{name}</CardTitle>
           </CardHeader>
-        </Link>
-        <CardContent className="p-4">
-          <p className="text-sm font-semibold mb-2">
-            Type: {type || "Unknown"}
-          </p>
-          <div className="flex flex-wrap gap-2 mb-2">
-            {elements && elements.length > 0 ? (
-              elements.map((element: string) => (
-                <Badge
-                  key={element}
-                  className={`${getElementColor(element)} text-white`}
-                >
-                  {element}
-                </Badge>
-              ))
-            ) : (
-              <Badge className="bg-gray-500 text-white">No Elements</Badge>
-            )}
-          </div>
-          <p className="text-sm mb-2">
-            <strong>Weakness:</strong>{" "}
-            {weakness && weakness.length > 0 ? weakness.join(", ") : "None"}
-          </p>
-          {games && games[0] && games[0].image && (
-            <div className="flex justify-center mt-2">
-              <Image
-                src={`/data/icons/${games[0].image}`}
-                alt={`${name} icon`}
-                width={80}
-                height={80}
-              />
+
+          <CardContent className="p-4">
+            <p className="text-sm font-semibold mb-2">
+              Type: {type || "Unknown"}
+            </p>
+            <div className="flex flex-wrap gap-2 mb-2">
+              {elements && elements.length > 0 ? (
+                elements.map((element: string) => (
+                  <Badge
+                    key={element}
+                    className={`${getElementColor(element)} text-white`}
+                  >
+                    {element}
+                  </Badge>
+                ))
+              ) : (
+                <Badge className="bg-gray-500 text-white">No Elements</Badge>
+              )}
             </div>
-          )}
-        </CardContent>
+            <p className="text-sm mb-2">
+              <strong>Weakness:</strong>{" "}
+              {weakness && weakness.length > 0 ? weakness.join(", ") : "None"}
+            </p>
+            {games && games[0] && games[0].image && (
+              <div className="flex justify-center mt-2">
+                <Image
+                  src={`/data/icons/${games[0].image}`}
+                  alt={`${name} icon`}
+                  width={80}
+                  height={80}
+                />
+              </div>
+            )}
+          </CardContent>
+        </Link>
       </Card>
     </Suspense>
   );
